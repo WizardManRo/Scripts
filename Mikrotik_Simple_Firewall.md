@@ -42,6 +42,11 @@ add action=drop chain=forward comment="Drop invalid" connection-state=invalid
 add action=dst-nat chain=dstnat comment="PortFw Antena MikroTik" dst-port=5392 protocol=tcp to-addresses=192.168.111.2 to-ports=5291
 add action=masquerade chain=srcnat comment=Masquerade ipsec-policy=out,none out-interface-list=WAN src-address=192.168.111.0/25
 
+add action=dst-nat chain=dstnat comment="PortFw Antena MikroTik" dst-port=5392 protocol=tcp to-addresses=192.168.111.2 to-ports=5291
+add action=dst-nat chain=dstnat comment="PortFw HTTP 10.254.100.10" dst-port=7101 in-interface-list=WAN protocol=tcp to-addresses=10.254.100.10 to-ports=80
+add action=masquerade chain=srcnat comment="Hairpin NAT Antena MikroTik" dst-address=192.168.111.2 dst-port=5291 protocol=tcp
+add action=masquerade chain=srcnat comment="Hairpin NAT 10.254.100.10" dst-address=10.254.100.10 dst-port=80 protocol=tcp
+
 /ip firewall service-port
 set ftp disabled=yes
 set tftp disabled=yes
